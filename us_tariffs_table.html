@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>US Reciprocal Tariffs Table</title>
+  <style>
+    body {
+        background: #000;
+        color: #fff;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        padding: 4px 3px;
+        border: 2px dotted #9ef2f5;
+        border-radius: 26px;
+        box-shadow: 0 0 24px #000a;
+        max-width: 900px;
+        margin: 40px auto;
+        position: relative;
+    }
+
+    .content-wrapper {
+        padding: 40px;
+        border: 2px dotted #b3b3b3;
+        border-radius: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0px;
+    }
+    .title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .seal {
+        min-width: 98px;
+        aspect-ratio: 1 / 1;
+        background: url(https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Seal_of_the_President_of_the_United_States.svg/500px-Seal_of_the_President_of_the_United_States.svg.png) no-repeat center / contain;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #222;
+        z-index: 2;
+        background-size: 100px;
+        filter: brightness(1.2);
+    }
+    img {
+        display: none;
+    }
+    h1 {
+        font-size: 2.4em;
+        color: #fff;
+        margin-top: 0;
+        margin-bottom: 12px;
+        letter-spacing: 1px;
+        text-shadow: 2.2px 2.3px 2px black, 3px 3px 0 white;
+        font-weight: lighter;
+        margin: 0;
+        white-space: nowrap;
+    }
+    .subtitle {
+      text-align: center;
+      font-family: 'Georgia', serif;
+      font-size: 1.2em;
+      color: #fff;
+      margin-bottom: 32px;
+      margin-top: 0;
+    }
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px #000a;
+      border-spacing: 34px 6px;
+      /* font-family: 'Georgia', serif; */
+      font-weight: bolder;
+        margin: 0 -34px;
+        width: calc(100% + 68px);
+    }
+    th, td {
+        padding: 4px;
+        text-align: left;
+        font-size: 1.2em;
+        color: #000;
+        border-radius: 5px;
+        text-shadow: 1px 0 0 currentColor, 1px 0 0 currentColor;
+        letter-spacing: 0.4px;
+    }
+    th {
+        background: #000;
+        color: #fff;
+        /* font-family: 'Georgia', serif; */
+        font-size: 0.7em;
+        font-weight: bold;
+        text-shadow: 1px 1px 4px #000, 0 0 2px #fff;
+        letter-spacing: 0.3px;
+        text-align: center;
+        max-width: 24px;
+        padding: 1px;
+        vertical-align: bottom;
+        padding-bottom: 6px;
+    }
+
+    tr {
+        transition: background 0.2s;
+        background-color: #fff !important;
+        pointer-events: auto;
+        height: 30px;
+        border: none;
+        width: 816px;
+        cursor: grab;
+    }
+    small {
+        font-size: 7px;
+        font-weight: 500;
+        float: right;
+    }
+    tr {
+      transition: background 0.2s;
+    }
+    body:not(.draggable--is-dragging) tr:nth-child(odd) td {
+      background: #b3f0ff;
+    }
+    tr:nth-child(even) td {
+      background: #fff;
+    }
+    /* .country-blue {
+      background: #b3f0ff !important;
+      color: #000 !important;
+      font-weight: bold;
+    } */
+
+    tr td {
+        white-space: nowrap;
+        position: relative;
+        transition: background 0.4s;
+    }
+
+
+#tariffsTable td:before {
+    content: "x";
+    color: transparent;
+    background-color: transparent;
+    width: 34px;
+    height: 35px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin-left: -34px;
+}
+    .tariff-yellow {
+      background: #ffe44d !important;
+      color: #222 !important;
+      font-weight: bold;
+      text-align: center;
+      font-size: 1.15em;
+      box-shadow: 0 0 4px #ffe44d88;
+    }
+    .tariff-black {
+      font-weight: bold;
+      text-align: center;
+      font-size: 1.15em;
+      box-shadow: 0 0 4px #0008;
+    }
+    .sort-controls {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        flex-direction: row;
+    }
+    .sort-controls label {
+      margin-right: 8px;
+      font-weight: bold;
+      color: #fff;
+      font-family: 'Georgia', serif;
+    }
+    .sort-controls select {
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #888;
+      background: #222;
+      color: #fff;
+    }
+    thead tr {
+      display: table-row;
+    }
+    td:nth-child(4), td:nth-child(5), td:nth-child(6), th:nth-child(4), th:nth-child(5), th:nth-child(6) {
+      display: none;
+    }
+    .funny-alert {
+        background: linear-gradient(90deg, #ffe44d 60%, #b3f0ff 100%);
+        color: #222;
+        border: 2px solid #ffe44d;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px #0004;
+        font-family: 'Georgia', serif;
+        font-size: 1.2em;
+        font-weight: bold;
+        padding: 12px 24px;
+        margin-bottom: 18px;
+        margin-top: -68px;
+        text-align: center;
+        position: absolute;
+        z-index: 10;
+        transition: opacity 0.4s;
+        width: calc(100% - 75px);
+        left: 0;
+        margin-left: 12px;
+    }
+    /* Style for Shopify Draggable mirror row */
+    .draggable-mirror {
+      background: #000 !important;
+      color: #fff !important;
+      border-radius: 5px;
+      box-shadow: 0 0 8px #222;
+      opacity: 0.95;
+      font-weight: bolder;
+      z-index: 1000;
+      border: 2px solid #ffe44d;
+    }
+    .draggable-mirror td {
+      background: transparent !important;
+      color: inherit !important;
+    }
+    /* #tariffsTable td, #tariffsTable th {
+      min-width: 120px;
+    } */
+    #tariffsTable tr.draggable--over,
+    #tariffsTable tr.draggable--placed {
+      opacity: 0.2;
+      transition: opacity 0.2s;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.12/lib/draggable.bundle.js"></script>
+</head>
+<body>
+
+  <div class="content-wrapper">
+    <div id="funny-alert" class="funny-alert" style="display:none;">
+      <span id="funny-alert-msg">Why would you want that?</span>
+      <span id="funny-alert-close" style="cursor:pointer;float:right;font-weight:bold;">&times;</span>
+    </div>
+    <div class="title-wrapper">
+      <div class="seal"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Seal_of_the_President_of_the_United_States.svg/500px-Seal_of_the_President_of_the_United_States.svg.png" alt="US Seal"></div>
+      <h1>Reciprocal Tariffs</h1>
+      <!-- <div class="subtitle">Tariffs Charged to the U.S.A. &nbsp;|&nbsp; U.S.A. Discounted Reciprocal Tariffs</div> -->
+        <div class="sort-controls">
+            <div style="width:100%;text-align:right;">
+                <label for="sort-master" style="font-weight:bold;color:#fff;font-family:'Georgia',serif;">Sort:</label>
+                <select id="sort-master">
+                    <option value="none">POTUS' Favorite</option>
+                    <option value="az">Alphabetically</option>
+                    <option value="backwards">Alphabackwards</option>
+                    <option value="code">Landline</option>
+                    <option value="tip">Tip of the tong</option>
+                    <option value="lowhigh">Low to high</option>
+                    <option value="randomized">Randomized</option>
+                    <option value="vengeance">JD Vengeance</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <table id="tariffsTable">
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Tariffs Charged to the U.S.A. <small>Including Currency Manipulation and Trade Barriers</small></th>
+                <th>U.S.A. Discounted Reciprocal Tariffs</th>
+                <th>Calling Code</th>
+                <th>Formation Date</th>
+                <th>Tip of the tong</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be inserted by JavaScript -->
+        </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Data from the image
+    const tariffsData = [
+      {country: "China", charged: 67, reciprocal: 34, callingCode: "+86", formationDate: "1949-10-01", tipOfTong: 1},
+      {country: "European Union", charged: 39, reciprocal: 20, callingCode: "", formationDate: "", tipOfTong: 2},
+      {country: "Vietnam", charged: 90, reciprocal: 46, callingCode: "+84", formationDate: "1945-09-02", tipOfTong: 4},
+      {country: "Taiwan", charged: 64, reciprocal: 32, callingCode: "+886", formationDate: "1912-01-01", tipOfTong: 5},
+      {country: "Japan", charged: 46, reciprocal: 24, callingCode: "+81", formationDate: "660 BC", tipOfTong: 6},
+      {country: "India", charged: 52, reciprocal: 26, callingCode: "+91", formationDate: "1947-08-15", tipOfTong: 7},
+      {country: "South Korea", charged: 50, reciprocal: 25, callingCode: "+82", formationDate: "1948-08-15", tipOfTong: 8},
+      {country: "Thailand", charged: 72, reciprocal: 36, callingCode: "+66", formationDate: "1238", tipOfTong: 9},
+      {country: "Switzerland", charged: 61, reciprocal: 31, callingCode: "+41", formationDate: "1291-08-01", tipOfTong: 10},
+      {country: "Indonesia", charged: 64, reciprocal: 32, callingCode: "+62", formationDate: "1945-08-17", tipOfTong: 11},
+      {country: "Malaysia", charged: 47, reciprocal: 24, callingCode: "+60", formationDate: "1957-08-31", tipOfTong: 12},
+      {country: "Cambodia", charged: 97, reciprocal: 49, callingCode: "+855", formationDate: "1953-11-09", tipOfTong: 13},
+      {country: "United Kingdom", charged: 10, reciprocal: 10, callingCode: "+44", formationDate: "1707-05-01", tipOfTong: 14},
+      {country: "South Africa", charged: 60, reciprocal: 30, callingCode: "+27", formationDate: "1910-05-31", tipOfTong: 15},
+      {country: "Brazil", charged: 10, reciprocal: 10, callingCode: "+55", formationDate: "1822-09-07", tipOfTong: 16},
+      {country: "Bangladesh", charged: 74, reciprocal: 37, callingCode: "+880", formationDate: "1971-03-26", tipOfTong: 17},
+      {country: "Singapore", charged: 10, reciprocal: 10, callingCode: "+65", formationDate: "1965-08-09", tipOfTong: 18},
+      {country: "Israel", charged: 33, reciprocal: 17, callingCode: "+972", formationDate: "1948-05-14", tipOfTong: 19},
+      {country: "Philippines", charged: 34, reciprocal: 17, callingCode: "+63", formationDate: "1946-07-04", tipOfTong: 20},
+      {country: "Chile", charged: 10, reciprocal: 10, callingCode: "+56", formationDate: "1818-02-12", tipOfTong: 21},
+      {country: "Australia", charged: 10, reciprocal: 10, callingCode: "+61", formationDate: "1901-01-01", tipOfTong: 22},
+      {country: "Pakistan", charged: 58, reciprocal: 29, callingCode: "+92", formationDate: "1947-08-14", tipOfTong: 23},
+      {country: "Turkey", charged: 10, reciprocal: 10, callingCode: "+90", formationDate: "1923-10-29", tipOfTong: 24},
+      {country: "Sri Lanka", charged: 88, reciprocal: 44, callingCode: "+94", formationDate: "1948-02-04", tipOfTong: 25},
+      {country: "Colombia", charged: 10, reciprocal: 10, callingCode: "+57", formationDate: "1810-07-20", tipOfTong: 26},
+      {country: "Peru", charged: 10, reciprocal: 10, callingCode: "+51", formationDate: "1821-07-28", tipOfTong: 27},
+      {country: "Nicaragua", charged: 36, reciprocal: 18, callingCode: "+505", formationDate: "1821-09-15", tipOfTong: 28},
+      {country: "Norway", charged: 30, reciprocal: 15, callingCode: "+47", formationDate: "1905-06-07", tipOfTong: 29},
+      {country: "Costa Rica", charged: 17, reciprocal: 10, callingCode: "+506", formationDate: "1821-09-15", tipOfTong: 30},
+      {country: "Jordan", charged: 40, reciprocal: 20, callingCode: "+962", formationDate: "1946-05-25", tipOfTong: 31},
+      {country: "Dominican Republic", charged: 10, reciprocal: 10, callingCode: "+1-809", formationDate: "1844-02-27", tipOfTong: 32},
+      {country: "United Arab Emirates", charged: 10, reciprocal: 10, callingCode: "+971", formationDate: "1971-12-02", tipOfTong: 33},
+      {country: "New Zealand", charged: 20, reciprocal: 10, callingCode: "+64", formationDate: "1907-09-26", tipOfTong: 34},
+      {country: "Argentina", charged: 10, reciprocal: 10, callingCode: "+54", formationDate: "1816-07-09", tipOfTong: 35},
+      {country: "Ecuador", charged: 12, reciprocal: 10, callingCode: "+593", formationDate: "1809-08-10", tipOfTong: 36},
+      {country: "Guatemala", charged: 10, reciprocal: 10, callingCode: "+502", formationDate: "1821-09-15", tipOfTong: 37},
+      {country: "Honduras", charged: 10, reciprocal: 10, callingCode: "+504", formationDate: "1821-09-15", tipOfTong: 38},
+      {country: "Madagascar", charged: 93, reciprocal: 47, callingCode: "+261", formationDate: "1960-06-26", tipOfTong: 39},
+      {country: "Myanmar (Burma)", charged: 88, reciprocal: 44, callingCode: "+95", formationDate: "1948-01-04", tipOfTong: 40},
+      {country: "Tunisia", charged: 55, reciprocal: 28, callingCode: "+216", formationDate: "1956-03-20", tipOfTong: 41},
+      {country: "Kazakhstan", charged: 54, reciprocal: 27, callingCode: "+7", formationDate: "1991-12-16", tipOfTong: 42},
+      {country: "Serbia", charged: 74, reciprocal: 37, callingCode: "+381", formationDate: "2006-06-05", tipOfTong: 43},
+      {country: "Egypt", charged: 10, reciprocal: 10, callingCode: "+20", formationDate: "1922-02-28", tipOfTong: 44},
+      {country: "Saudi Arabia", charged: 10, reciprocal: 10, callingCode: "+966", formationDate: "1932-09-23", tipOfTong: 45},
+      {country: "El Salvador", charged: 10, reciprocal: 10, callingCode: "+503", formationDate: "1821-09-15", tipOfTong: 46},
+      {country: "Côte d'Ivoire", charged: 41, reciprocal: 21, callingCode: "+225", formationDate: "1960-08-07", tipOfTong: 47},
+      {country: "Laos", charged: 95, reciprocal: 48, callingCode: "+856", formationDate: "1949-07-19", tipOfTong: 48},
+      {country: "Botswana", charged: 74, reciprocal: 37, callingCode: "+267", formationDate: "1966-09-30", tipOfTong: 49},
+      {country: "Trinidad and Tobago", charged: 12, reciprocal: 10, callingCode: "+1-868", formationDate: "1962-08-31", tipOfTong: 50},
+      {country: "Morocco", charged: 10, reciprocal: 10, callingCode: "+212", formationDate: "1956-03-02", tipOfTong: 51}
+    ];
+
+    // Countries to highlight in blue (from the reference image)
+    const blueCountries = [
+      "China", "Vietnam", "Japan", "South Korea", "Malaysia", "United Kingdom", "Brazil", "Singapore", "Philippines", "Australia", "Turkey", "Colombia"
+    ];
+
+    // Fisher-Yates shuffle to randomize the array
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+    shuffleArray(tariffsData);
+
+    let currentSort = {col: null, dir: null};
+    let sortedData = [...tariffsData];
+    let lastValidSort = 'none';
+
+    function renderTable(data, randomizedReciprocal = false) {
+      const tbody = document.querySelector("#tariffsTable tbody");
+      tbody.innerHTML = "";
+      data.forEach((row, idx) => {
+        let reciprocal = row.reciprocal;
+        if (randomizedReciprocal) {
+          if (row.charged === 10) {
+            reciprocal = 10;
+          } else {
+            reciprocal = Math.floor(Math.random() * (row.charged - 10 + 1)) + 10;
+          }
+        }
+        const isBlue = blueCountries.includes(row.country);
+        const tr = document.createElement('tr');
+        if (isBlue) tr.classList.add('country-blue');
+        tr.innerHTML = `
+            <td>${row.country}</td>
+            <td class="tariff-black">${row.charged}%</td>
+            <td class="tariff-yellow">${reciprocal}%</td>
+            <td>${row.callingCode || ""}</td>
+            <td>${row.formationDate || ""}</td>
+            <td>${row.tipOfTong || ""}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+      if (window.draggableInstance) {
+        window.draggableInstance.destroy();
+      }
+      window.draggableInstance = new Draggable.Sortable(document.querySelectorAll('#tariffsTable tbody'), {
+        draggable: 'tr',
+        mirror: {
+          constrainDimensions: true
+        },
+        plugins: [Draggable.Plugins.SortAnimation],
+        sortAnimation: {
+          duration: 250,
+          easingFunction: 'ease-in-out'
+        }
+      });
+      window.draggableInstance.on('sortable:stop', function(evt) {
+        // Update tariffsData to match new DOM order
+        const newOrder = Array.from(document.querySelectorAll('#tariffsTable tbody tr')).map(tr => tr.querySelector('td').textContent.trim());
+        tariffsData.sort((a, b) => newOrder.indexOf(a.country) - newOrder.indexOf(b.country));
+        // Check for manual alphabetical sorting
+        const isAlpha = (a, b) => a.localeCompare(b) === 0;
+        let count = 1;
+        for (let i = 1; i < tariffsData.length; ++i) {
+          if (tariffsData[i].country.localeCompare(tariffsData[i-1].country) >= 0) {
+            count++;
+          } else {
+            break;
+          }
+        }
+        if (count >= 5) {
+          showFunnyAlert('Good try!');
+          shuffleArray(tariffsData);
+          setTimeout(() => renderTable(tariffsData), 600);
+        }
+      });
+    }
+
+    function sortAndRender() {
+      const sortVal = document.getElementById('sort-master').value;
+      let data = [...tariffsData];
+      let randomizedReciprocal = false;
+      if (sortVal === 'backwards') {
+        data.sort((a, b) => {
+          const aBack = a.country.split('').reverse().join('');
+          const bBack = b.country.split('').reverse().join('');
+          return aBack.localeCompare(bBack);
+        });
+      } else if (sortVal === 'code') {
+        data.sort((a, b) => {
+          if (!a.callingCode) return 1;
+          if (!b.callingCode) return -1;
+          return a.callingCode.localeCompare(b.callingCode);
+        });
+      } else if (sortVal === 'tip') {
+        data.sort((a, b) => a.tipOfTong - b.tipOfTong);
+      } else if (sortVal === 'lowhigh') {
+        data.sort((a, b) => a.reciprocal - b.reciprocal);
+      } else if (sortVal === 'randomized') {
+        randomizedReciprocal = true;
+      } else if (sortVal === 'vengeance') {
+        data.sort((a, b) => {
+          const ratioA = a.charged / a.reciprocal;
+          const ratioB = b.charged / b.reciprocal;
+          return ratioB - ratioA;
+        });
+      }
+      renderTable(data, randomizedReciprocal);
+    }
+
+    function showFunnyAlert(msg) {
+      const funnyPhrases = [
+            "Why would you need that? The table's perfect.",
+            "We have the best tariffs. Nobody sorts like we do.",
+            "Covfefe confirmed: No sorting required.",
+            "It's all part of a very powerful plan.",
+            "You're looking at a stable genius table.",
+            "Sorting? That's fake news.",
+            "Tariffs are easy to win, sorting is not.",
+            "This is the art of the spreadsheet.",
+            "Some people say sorting is overrated.",
+            "I alone can unsort it.",
+            "You clicked it—some people say that's illegal.",
+            "You know who loves sorting? China.",
+            "Tariffs, not tables! That's what won Ohio.",
+            "Look, it's a very strong, very beautiful mess.",
+            "That's not a bug, that's American chaos.",
+            "Sorting? Ask J.D. Vance about that one.",
+            "Big sort. The biggest. Maybe ever.",
+            "Sorting like no one's watching. But the DOJ might be.",
+            "Tables are meant to be looked at, not organized.",
+            "We inherited a mess—and we made it messier!",
+            "I told them—don't sort. Just feel the table.",
+            "This table is running like a well-oiled tariff.",
+            "The Founding Fathers didn't sort either.",
+            "We're gonna sort so much, you'll be tired of sorting.",
+            "You are fake rows.",
+            "Some say this is the greatest unsorted table ever.",
+            "Sorting is for losers—just look at the polls.",
+            "Don't ask. You don't want to know how this was sorted.",
+            "America First. Sorting Last.",
+            "They laughed when I said 'tariff table', who's laughing now?",
+            "This is a very special kind of disorder.",
+            "That's a beautiful sort. Nobody saw it coming.",
+            "Honestly? I don't think you *can* sort this.",
+            "I like tables that don't get sorted."
+        ];
+      const randomPhrase = funnyPhrases[Math.floor(Math.random() * funnyPhrases.length)];
+      const alert = document.getElementById('funny-alert');
+      const alertMsg = document.getElementById('funny-alert-msg');
+      alertMsg.textContent = msg || randomPhrase;
+      alert.style.display = 'block';
+      alert.style.opacity = 1;
+      if (window.funnyAlertTimeout) clearTimeout(window.funnyAlertTimeout);
+      window.funnyAlertTimeout = setTimeout(() => {
+        alert.style.opacity = 0;
+        setTimeout(() => { alert.style.display = 'none'; }, 400);
+      }, 3000);
+    }
+    document.getElementById('funny-alert-close').onclick = function() {
+      const alert = document.getElementById('funny-alert');
+      alert.style.opacity = 0;
+      setTimeout(() => { alert.style.display = 'none'; }, 400);
+    };
+
+    document.getElementById('sort-master').addEventListener('change', function() {
+      const val = this.value;
+      // List of conventional (blocked) sorts
+      const blocked = ['az', 'lowhigh'];
+      if (blocked.includes(val)) {
+        showFunnyAlert();
+        this.value = lastValidSort;
+        return;
+      } else if (val === 'lowhigh') {
+        showFunnyAlert();
+      }
+      lastValidSort = val;
+      sortAndRender();
+    });
+
+    // Initial render
+    renderTable(tariffsData);
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const firstRow = document.querySelector('#tariffsTable tbody tr');
+        if (firstRow) {
+          firstRow.classList.toggle('draggable--over');
+          firstRow.classList.toggle('draggable--placed');
+        }
+      }
+    });
+  </script>
+</body>
+</html> 
