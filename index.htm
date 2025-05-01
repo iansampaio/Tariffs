@@ -231,6 +231,30 @@
       opacity: 0.2;
       transition: opacity 0.2s;
     }
+
+    @media screen and (max-width: 924px) {
+      body {
+        margin: 24px 4px;
+      }
+      table {
+        border-spacing: 8px 6px;
+        width: calc(100% + 32px);
+        margin-left: -16px;
+      }
+      h1 {
+        font-size: 1.5em;
+      }
+      .seal {
+        min-width: 47px;
+        background-size: cover;
+      }
+      label {display: none}
+      
+      .content-wrapper {
+        padding: 16px;
+      }
+
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.12/lib/draggable.bundle.js"></script>
 </head>
